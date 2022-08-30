@@ -2,42 +2,44 @@ import java.util.*;
 import java.io.File;
 import java.io.IOException;
 
-class Token {
+class Node {
   public int value;
-  public Token next;
+  public Node next;
 
-  Token(int value) {
+  Node(int value) {
     this.value = value;
     this.next = null;
+  }
+
+  Node(int value, Node next) {
+    this.value = value;
+    this.next = next;
   }
 }
 
 class Stack {
-  public Token top;
+  public Node top;
 
   Stack() {
     this.top = null;
   }
 
   public void push(int newValue) {
-    Token last_top = this.top;
-    this.top = new Token(newValue);
-    this.top.next = last_top;
+    this.top = new Node(newValue, this.top);
   }
 
   public int pop() {
-    Token new_top = this.top.next;
-    Token last_top = this.top;
+    Node new_top = this.top.next;
+    Node curr_top = this.top;
     this.top = new_top;
-    return last_top.value;
+    return curr_top.value;
   }
 }
 
 class Main {
   public static void main(String[] args) throws IOException {
     Stack stack = new Stack();
-    String file = "input.txt";
-    Scanner scanner = new Scanner(new File(file));
+    Scanner scanner = new Scanner(new File("input.txt"));
     scanner.useDelimiter("\n");
     while (scanner.hasNext()) {
       String entry = scanner.next();
